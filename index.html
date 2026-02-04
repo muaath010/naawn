@@ -9,6 +9,7 @@
         :root {
             --gold: #D4AF37;
             --dark-red: #8B0000;
+            --premium-black: #1a1a1a;
             --soft-white: #fdfdfd;
         }
 
@@ -16,6 +17,7 @@
             font-family: 'Cairo', sans-serif;
             background: radial-gradient(circle, #4a0000 0%, #1a0000 100%);
             margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,23 +26,33 @@
 
         .card {
             background: var(--soft-white);
-            width: 95%;
-            max-width: 480px;
-            padding: 40px;
-            border-radius: 30px;
-            border-top: 8px solid var(--gold);
-            border-bottom: 8px solid var(--gold);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            border-radius: 25px;
+            border-top: 10px solid var(--gold);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 100px; height: 100px;
+            background: linear-gradient(135deg, var(--gold) 0%, transparent 50%);
+            opacity: 0.1;
         }
 
         h2 {
             color: var(--dark-red);
             text-align: center;
             font-weight: 900;
-            font-size: 24px;
+            font-size: 26px;
             margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
         }
 
         .input-group {
@@ -49,115 +61,129 @@
 
         label {
             display: block;
-            color: #444;
+            color: #333;
             font-weight: 700;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         input, textarea {
             width: 100%;
             padding: 14px;
-            border: 2px solid #eee;
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
             font-size: 16px;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            background: #fafafa;
         }
 
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            background: #fff;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
         }
 
         button {
             width: 100%;
             background: linear-gradient(45deg, var(--dark-red), #b30000);
             color: var(--gold);
-            border: none;
+            border: 2px solid var(--gold);
             padding: 16px;
             border-radius: 15px;
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(139, 0, 0, 0.3);
-            transition: 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
         button:hover {
-            transform: scale(1.02);
-            filter: brightness(1.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(139, 0, 0, 0.4);
+            filter: brightness(1.1);
         }
 
         button:disabled {
-            background: #ccc;
+            background: #999;
+            border-color: #777;
             cursor: not-allowed;
+            transform: none;
         }
 
-        .status-msg {
+        .footer-logo {
             text-align: center;
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 10px;
-            display: none;
+            margin-top: 20px;
+            color: var(--gold);
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        .success { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
+        /* التحميل */
+        .loader {
+            display: none;
+            text-align: center;
+            color: var(--dark-red);
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>⚜️ إدخال بيانات التوصيل ⚜️</h2>
+    <h2>⚜️ نظام نعاون للمندوبين ⚜️</h2>
     
-    <form id="mainForm">
+    <form id="deliveryForm">
         <div class="input-group">
             <label>اسم المندوب</label>
-            <input type="text" id="name" required placeholder="الاسم بالكامل">
+            <input type="text" id="name" required placeholder="أدخل اسمك الثلاثي">
         </div>
 
         <div class="input-group">
             <label>عدد الطلبات</label>
-            <input type="number" id="orderCount" required>
+            <input type="number" id="orderCount" required placeholder="0">
         </div>
 
         <div class="input-group">
-            <label>التاريخ</label>
+            <label>تاريخ اليوم</label>
             <input type="date" id="date" required>
         </div>
 
         <div class="input-group">
-            <label>مبالغ التوصيل (مبلغ لكل سطر)</label>
-            <textarea id="amounts" rows="4" placeholder="0.800&#10;1.200"></textarea>
+            <label>مبالغ التوصيل (مبلغ في كل سطر)</label>
+            <textarea id="amounts" rows="4" placeholder="0.800&#10;1.200&#10;0.900"></textarea>
         </div>
 
         <div class="input-group">
             <label>الاستقطاع (ر.ع.)</label>
-            <input type="number" step="0.001" id="deduction" value="0">
+            <input type="number" step="0.001" id="deduction" value="0.000">
         </div>
 
-        <button type="submit" id="btnSubmit">إرسال البيانات للأنظمة</button>
-        <div id="msg" class="status-msg"></div>
+        <button type="submit" id="submitBtn">تأكيد وإرسال البيانات</button>
+        <div id="loader" class="loader">جاري معالجة البيانات وإرسالها...</div>
     </form>
+
+    <div class="footer-logo">NAAWON SYSTEM</div>
 </div>
 
 <script>
-    // 1. ضع رابط الـ Web App الخاص بك هنا
-    const WEB_APP_URL = https://script.google.com/macros/s/AKfycbwSM1YI9XQMmjYHg2n2APjcgZKxrVnBWYp-Yal2xpot-l0sjW4ovMfe_OJSq4d7k54x/exec;
+    // الرابط الخاص بك جاهز هنا
+    const APP_URL = https://script.google.com/macros/s/AKfycbxpdaFT0yZRjdwDpFFqb8AiWDn8Ej6-GpAg3K54ErttNlQzDhNE5kpUwB3ojR2C7Scj/exec;
 
-    document.getElementById('mainForm').onsubmit = async (e) => {
+    document.getElementById('deliveryForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const btn = document.getElementById('btnSubmit');
-        const msg = document.getElementById('msg');
+        
+        const btn = document.getElementById('submitBtn');
+        const loader = document.getElementById('loader');
         
         btn.disabled = true;
-        btn.innerText = "جاري الحفظ في جوجل شيت...";
-        msg.style.display = "none";
+        loader.style.display = 'block';
 
-        const payload = {
+        const data = {
             name: document.getElementById('name').value,
             orderCount: document.getElementById('orderCount').value,
             date: document.getElementById('date').value,
@@ -165,36 +191,30 @@
             deduction: document.getElementById('deduction').value
         };
 
-        try {
-            // استخدام fetch مع إرسال البيانات كـ Text لتجاوز مشاكل الـ CORS في بعض المتصفحات
-            await fetch(WEB_APP_URL, {
-                method: "POST",
-                mode: "no-cors", 
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-
-            // بما أننا نستخدم no-cors لن نستطيع قراءة الرد، لكننا سنفترض النجاح إذا لم يحدث خطأ اتصال
-            msg.className = "status-msg success";
-            msg.innerText = "✅ تم تسجيل البيانات بنجاح فائق!";
-            msg.style.display = "block";
-            document.getElementById('mainForm').reset();
-            setDefaultDate();
-
-        } catch (err) {
-            msg.className = "status-msg error";
-            msg.innerText = "❌ خطأ في الاتصال، تأكد من إعدادات النشر";
-            msg.style.display = "block";
-        } finally {
+        // إرسال البيانات
+        fetch(APP_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            cache: 'no-cache',
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            alert('✅ تم تسجيل البيانات في جوجل شيت بنجاح!');
+            document.getElementById('deliveryForm').reset();
+            document.getElementById('date').valueAsDate = new Date();
+        })
+        .catch(err => {
+            alert('❌ عذراً، حدث خطأ في الشبكة.');
+            console.error(err);
+        })
+        .finally(() => {
             btn.disabled = false;
-            btn.innerText = "إرسال البيانات للأنظمة";
-        }
-    };
+            loader.style.display = 'none';
+        });
+    });
 
-    function setDefaultDate() {
-        document.getElementById('date').valueAsDate = new Date();
-    }
-    setDefaultDate();
+    // تعيين التاريخ تلقائياً عند فتح الصفحة
+    document.getElementById('date').valueAsDate = new Date();
 </script>
 
 </body>
