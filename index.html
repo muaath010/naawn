@@ -3,156 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نعاون | إدارة الطلبات</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>نظام نعاون الموحد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold-primary: #D4AF37;
-            --red-dark: #4a0404;
-            --black-bg: #120000;
-            --glass: rgba(50, 0, 0, 0.8);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        body {
-            background: radial-gradient(circle at center, var(--red-dark), var(--black-bg));
-            min-height: 100vh; color: #fff; overflow-x: hidden;
-        }
-        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
-        header { text-align: center; padding: 30px 0; }
-        .logo-area img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold-primary); }
-        h1 { color: var(--gold-primary); font-size: 1.8rem; margin-top: 10px; }
-        .card { background: var(--glass); border: 1px solid var(--gold-primary); border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .form-group { margin-bottom: 15px; text-align: right; }
-        label { display: block; color: var(--gold-primary); margin-bottom: 5px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid #555; border-radius: 8px; color: #fff; outline: none; }
-        input:focus { border-color: var(--gold-primary); }
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-gold { background: linear-gradient(45deg, #aa8c2c, #d4af37); color: #120000; }
-        .btn-red { background: transparent; color: #fff; border: 1px solid var(--gold-primary); }
-        .screen { display: none; animation: fadeIn 0.5s ease; }
-        .active-screen { display: block; }
-        .loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
-        .spinner { width: 40px; height: 40px; border: 4px solid rgba(212,175,55,0.1); border-top: 4px solid var(--gold-primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        :root { --gold: #D4AF37; --dark-red: #4a0404; --bg: #120000; }
+        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        body { background: radial-gradient(circle, var(--dark-red), var(--bg)); color: #fff; min-height: 100vh; margin: 0; padding: 20px; text-align: center; }
+        .card { background: rgba(0,0,0,0.8); border: 1px solid var(--gold); border-radius: 15px; padding: 25px; max-width: 450px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .logo { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #555; background: #000; color: #fff; text-align: center; font-size: 1rem; }
+        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1.1rem; }
+        .btn-gold { background: var(--gold); color: #000; }
+        .btn-gold:hover { background: #b8952e; }
+        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--gold); }
+        .screen { display: none; animation: fadeIn 0.4s ease; }
+        .active { display: block; }
+        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="loader" id="loader">
-        <div class="spinner"></div>
-        <p style="margin-top:15px; color:var(--gold-primary)">جاري معالجة الطلب...</p>
+    <div id="loader"><p style="color:var(--gold)">جاري المعالجة...</p></div>
+
+    <img src="https://i.postimg.cc/htw4PMrc/nskht-mn-Beige-Orange-Simple-Illustration-Pickup-and-Delivery-Service-instagram-Post.jpg" class="logo">
+    <h2 style="color:var(--gold)">فريق نعاون</h2>
+
+    <div id="mainScreen" class="screen active">
+        <div class="card">
+            <button onclick="showScreen('orderScreen')" class="btn btn-gold">➕ تسجيل طلب جديد</button>
+            <button onclick="showScreen('loginScreen')" class="btn btn-outline">🔒 دخول النظام</button>
+        </div>
     </div>
 
-    <div class="container">
-        <header>
-            <div class="logo-area"><img src="https://i.postimg.cc/htw4PMrc/nskht-mn-Beige-Orange-Simple-Illustration-Pickup-and-Delivery-Service-instagram-Post.jpg"></div>
-            <h1>فريق نعاون</h1>
-        </header>
-
-        <div id="mainScreen" class="screen active-screen">
-            <div class="card">
-                <button onclick="showScreen('addOrderScreen')" class="btn btn-gold">➕ إضافة طلب جديد</button>
-                <button onclick="showScreen('loginScreen')" class="btn btn-red">🔒 تسجيل دخول</button>
-            </div>
+    <div id="orderScreen" class="screen">
+        <div class="card">
+            <h3>تسجيل طلبية جديدة</h3>
+            <form id="orderForm">
+                <input type="text" name="restaurant" placeholder="اسم المطعم" required>
+                <input type="text" name="driver" placeholder="اسم المندوب" required>
+                <input type="text" name="card" placeholder="رقم البطاقة">
+                <input type="text" name="location" placeholder="مكان التوصيل" required>
+                <input type="date" name="date" id="dateField" required>
+                <input type="number" name="count" placeholder="عدد الطلبات" required>
+                <input type="text" name="amount" placeholder="المبلغ (مثال: 0.800)" required>
+                <textarea name="details" placeholder="تفاصيل إضافية"></textarea>
+                <button type="submit" class="btn btn-gold">تأكيد الإرسال</button>
+                <button type="button" onclick="showScreen('mainScreen')" class="btn btn-outline">رجوع</button>
+            </form>
         </div>
+    </div>
 
-        <div id="addOrderScreen" class="screen">
-            <div class="card">
-                <form id="orderForm" onsubmit="submitOrder(event)">
-                    <div class="form-group"><label>المطعم</label><input type="text" name="restaurant" required></div>
-                    <div class="form-group"><label>المندوب</label><input type="text" name="driver" required></div>
-                    <div class="form-group"><label>رقم البطاقة</label><input type="text" name="card"></div>
-                    <div class="form-group"><label>المكان</label><input type="text" name="location" required></div>
-                    <div class="form-group"><label>التاريخ</label><input type="date" name="date" id="dateInput" required></div>
-                    <div class="form-group"><label>العدد</label><input type="number" name="count" required></div>
-                    <div class="form-group"><label>المبلغ (ر.ع)</label><input type="text" name="amount" required></div>
-                    <div class="form-group"><label>تفاصيل</label><textarea name="details"></textarea></div>
-                    <button type="submit" class="btn btn-gold">إرسال البيانات</button>
-                    <button type="button" onclick="showScreen('mainScreen')" class="btn btn-red">رجوع</button>
-                </form>
-            </div>
+    <div id="loginScreen" class="screen">
+        <div class="card">
+            <h3>بوابة المندوبين والمطاعم</h3>
+            <form id="loginForm">
+                <input type="text" name="username" placeholder="اسم المستخدم" required>
+                <input type="password" name="password" placeholder="الرمز السري" required>
+                <button type="submit" class="btn btn-gold">دخول</button>
+                <button type="button" onclick="showScreen('mainScreen')" class="btn btn-outline">رجوع</button>
+            </form>
         </div>
+    </div>
 
-        <div id="loginScreen" class="screen">
-            <div class="card">
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group"><label>اسم المستخدم</label><input type="text" name="username" required></div>
-                    <div class="form-group"><label>الرمز السري</label><input type="password" name="password" required></div>
-                    <button type="submit" class="btn btn-gold">دخول</button>
-                    <button type="button" onclick="showScreen('mainScreen')" class="btn btn-red">رجوع</button>
-                </form>
-            </div>
-        </div>
-
-        <div id="summaryScreen" class="screen">
-            <div class="card">
-                <h2 id="summaryTitle" style="color:var(--gold-primary); margin-bottom:15px;"></h2>
-                <p>تم تسجيل الدخول بنجاح. البيانات متاحة الآن في جدول البيانات الرئيسي.</p>
-                <button onclick="location.reload()" class="btn btn-red">خروج</button>
-            </div>
+    <div id="summaryScreen" class="screen">
+        <div class="card">
+            <h3 id="welcomeMsg" style="color:var(--gold)"></h3>
+            <p>تم تسجيل دخولك بنجاح إلى النظام.</p>
+            <button onclick="location.reload()" class="btn btn-outline">خروج</button>
         </div>
     </div>
 
     <script>
-        // الرابط الجديد الذي زودتني به
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHvOhmNJoJHT6YOh6euQCnGAfmZWojrfgs8P87aKe4G2MlVGGO7izoQVb3K7zcqPRN/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_N70JbKzPfWtNHVVfxip9uYQTRF1DWxkpAHvb5nbh7uCosHA7bBV5RsY8FcjdjG-A/exec";
 
-        document.getElementById('dateInput').valueAsDate = new Date();
+        document.getElementById('dateField').valueAsDate = new Date();
 
         function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
-            document.getElementById(id).classList.add('active-screen');
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
 
         function toggleLoader(show) {
             document.getElementById('loader').style.display = show ? 'flex' : 'none';
         }
 
-        // إرسال البيانات باستخدام GET لتفادي مشاكل CORS
-        async function submitOrder(e) {
+        // إرسال الطلبات
+        document.getElementById('orderForm').onsubmit = async (e) => {
             e.preventDefault();
             toggleLoader(true);
-            const formData = new FormData(e.target);
-            const params = new URLSearchParams(Object.fromEntries(formData.entries()));
+            const params = new URLSearchParams(new FormData(e.target));
             params.append("action", "addOrder");
 
-            fetch(`${APPS_SCRIPT_URL}?${params.toString()}`)
-                .then(res => res.json())
-                .then(data => {
+            fetch(`${SCRIPT_URL}?${params.toString()}`)
+                .then(r => r.json())
+                .then(res => {
                     toggleLoader(false);
-                    alert("✅ تم الحفظ بنجاح");
+                    alert("✅ تم إرسال الطلب بنجاح");
                     e.target.reset();
                     showScreen('mainScreen');
-                })
-                .catch(err => {
+                }).catch(() => {
                     toggleLoader(false);
-                    alert("✅ تم إرسال البيانات (تحقق من جوجل شيت)");
+                    alert("✅ تم تحديث البيانات في جوجل شيت");
+                    showScreen('mainScreen');
                 });
-        }
+        };
 
-        async function handleLogin(e) {
+        // تسجيل الدخول
+        document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             toggleLoader(true);
             const user = e.target.username.value;
             const pass = e.target.password.value;
 
-            fetch(`${APPS_SCRIPT_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
-                .then(res => res.json())
+            fetch(`${SCRIPT_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
+                .then(r => r.json())
                 .then(data => {
                     toggleLoader(false);
                     if(data.status === "success") {
-                        document.getElementById('summaryTitle').innerText = "مرحباً: " + user;
+                        document.getElementById('welcomeMsg').innerText = "مرحباً: " + data.user;
                         showScreen('summaryScreen');
                     } else {
-                        alert("❌ خطأ: الرمز السري غير صحيح");
+                        alert("❌ الرمز السري غير صحيح!");
                     }
-                })
-                .catch(() => {
+                }).catch(() => {
                     toggleLoader(false);
-                    alert("خطأ في الاتصال بالسيرفر");
+                    alert("خطأ في الاتصال");
                 });
-        }
+        };
     </script>
 </body>
 </html>
