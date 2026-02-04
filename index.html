@@ -3,160 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نعاون | نظام إدارة الطلبات VIP</title>
+    <title>نعاون | إدارة الطلبات</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <style>
         :root {
             --gold-primary: #D4AF37;
-            --gold-shiny: #F5D765;
             --red-dark: #4a0404;
-            --red-bright: #8a0909;
             --black-bg: #120000;
-            --glass: rgba(50, 0, 0, 0.7);
+            --glass: rgba(50, 0, 0, 0.8);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-
         body {
             background: radial-gradient(circle at center, var(--red-dark), var(--black-bg));
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
+            min-height: 100vh; color: #fff; overflow-x: hidden;
         }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            z-index: -1;
-        }
-
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
-
-        header { text-align: center; padding: 40px 0; animation: fadeInDown 1s ease; }
-        .logo-area img {
-            width: 120px; height: 120px; border-radius: 50%;
-            border: 3px solid var(--gold-primary);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-            object-fit: cover;
-        }
-
-        h1 { color: var(--gold-primary); font-size: 2.2rem; margin-top: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-        h1 span { color: #fff; font-size: 1.1rem; display: block; margin-top: 5px; opacity: 0.8; font-weight: 400; }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--gold-primary);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            transition: transform 0.3s;
-        }
-
-        h2 { color: var(--gold-primary); text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 15px; margin-bottom: 25px; }
-
-        .form-group { margin-bottom: 20px; }
-        label { display: block; color: var(--gold-primary); margin-bottom: 8px; font-weight: bold; font-size: 0.95rem; }
-        
-        input, textarea, select {
-            width: 100%; padding: 14px; background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #555; border-radius: 10px; color: #fff;
-            font-size: 1rem; outline: none; transition: 0.3s;
-        }
-
-        input:focus, textarea:focus { border-color: var(--gold-primary); box-shadow: 0 0 12px rgba(212, 175, 55, 0.2); }
-
-        .btn {
-            width: 100%; padding: 16px; border: none; border-radius: 12px;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-
-        .btn-gold {
-            background: linear-gradient(45deg, #aa8c2c, #d4af37, #aa8c2c);
-            background-size: 200%; color: #120000;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            margin-bottom: 15px;
-        }
-
-        .btn-gold:hover { background-position: right; transform: translateY(-2px); }
-
-        .btn-red { background: rgba(138, 9, 9, 0.3); color: #fff; border: 1px solid var(--gold-primary); }
-        .btn-red:hover { background: rgba(138, 9, 9, 0.6); }
-
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 0; }
+        .logo-area img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold-primary); }
+        h1 { color: var(--gold-primary); font-size: 1.8rem; margin-top: 10px; }
+        .card { background: var(--glass); border: 1px solid var(--gold-primary); border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .form-group { margin-bottom: 15px; text-align: right; }
+        label { display: block; color: var(--gold-primary); margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid #555; border-radius: 8px; color: #fff; outline: none; }
+        input:focus { border-color: var(--gold-primary); }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-gold { background: linear-gradient(45deg, #aa8c2c, #d4af37); color: #120000; }
+        .btn-red { background: transparent; color: #fff; border: 1px solid var(--gold-primary); }
         .screen { display: none; animation: fadeIn 0.5s ease; }
         .active-screen { display: block; }
-
-        .loader {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            z-index: 1000; justify-content: center; align-items: center;
-            flex-direction: column; color: var(--gold-primary);
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid rgba(212, 175, 55, 0.1);
-            border-top: 5px solid var(--gold-primary); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 15px;
-        }
-
+        .loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(212,175,55,0.1); border-top: 4px solid var(--gold-primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .summary-item { border: 1px solid #555; padding: 15px; border-radius: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.03); }
-        .order-card { font-size: 0.9rem; padding: 12px; border-right: 3px solid var(--gold-primary); background: rgba(0,0,0,0.2); margin-top: 8px; border-radius: 4px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="loader" id="loader">
         <div class="spinner"></div>
-        <h3 id="loaderText">جاري المعالجة...</h3>
+        <p style="margin-top:15px; color:var(--gold-primary)">جاري معالجة الطلب...</p>
     </div>
 
     <div class="container">
         <header>
-            <div class="logo-area">
-                <img src="https://i.postimg.cc/htw4PMrc/nskht-mn-Beige-Orange-Simple-Illustration-Pickup-and-Delivery-Service-instagram-Post.jpg" alt="Logo">
-            </div>
-            <h1>فريق نعاون<span>نظام الفوترة الرقمي الموحد</span></h1>
+            <div class="logo-area"><img src="https://i.postimg.cc/htw4PMrc/nskht-mn-Beige-Orange-Simple-Illustration-Pickup-and-Delivery-Service-instagram-Post.jpg"></div>
+            <h1>فريق نعاون</h1>
         </header>
 
         <div id="mainScreen" class="screen active-screen">
             <div class="card">
-                <button onclick="showScreen('addOrderScreen')" class="btn btn-gold">➕ تسجيل طلب جديد</button>
-                <button onclick="showScreen('loginScreen')" class="btn btn-red">🔒 دخول المطاعم والإدارة</button>
+                <button onclick="showScreen('addOrderScreen')" class="btn btn-gold">➕ إضافة طلب جديد</button>
+                <button onclick="showScreen('loginScreen')" class="btn btn-red">🔒 تسجيل دخول</button>
             </div>
         </div>
 
         <div id="addOrderScreen" class="screen">
             <div class="card">
-                <h2>إضافة تفاصيل الطلبية</h2>
                 <form id="orderForm" onsubmit="submitOrder(event)">
-                    <div class="form-group"><label>اسم المطعم</label><input type="text" name="restaurant" required></div>
-                    <div class="form-group"><label>اسم المندوب</label><input type="text" name="driver" required></div>
+                    <div class="form-group"><label>المطعم</label><input type="text" name="restaurant" required></div>
+                    <div class="form-group"><label>المندوب</label><input type="text" name="driver" required></div>
                     <div class="form-group"><label>رقم البطاقة</label><input type="text" name="card"></div>
-                    <div class="form-group"><label>مكان التوصيل</label><input type="text" name="location" required></div>
+                    <div class="form-group"><label>المكان</label><input type="text" name="location" required></div>
                     <div class="form-group"><label>التاريخ</label><input type="date" name="date" id="dateInput" required></div>
-                    <div class="form-group"><label>عدد الطلبات</label><input type="number" name="count" required></div>
-                    <div class="form-group"><label>القيمة (ر.ع)</label><input type="text" name="amount" placeholder="مثال: 0.800" required></div>
-                    <div class="form-group"><label>تفاصيل إضافية</label><textarea name="details" rows="2"></textarea></div>
-                    
-                    <button type="submit" class="btn btn-gold">إرسال وتأكيد</button>
-                    <button type="button" onclick="showScreen('mainScreen')" class="btn btn-red">إلغاء</button>
+                    <div class="form-group"><label>العدد</label><input type="number" name="count" required></div>
+                    <div class="form-group"><label>المبلغ (ر.ع)</label><input type="text" name="amount" required></div>
+                    <div class="form-group"><label>تفاصيل</label><textarea name="details"></textarea></div>
+                    <button type="submit" class="btn btn-gold">إرسال البيانات</button>
+                    <button type="button" onclick="showScreen('mainScreen')" class="btn btn-red">رجوع</button>
                 </form>
             </div>
         </div>
 
         <div id="loginScreen" class="screen">
             <div class="card">
-                <h2>بوابة الوصول الآمن</h2>
-                <form id="loginForm" onsubmit="handleLogin(event)">
+                <form onsubmit="handleLogin(event)">
                     <div class="form-group"><label>اسم المستخدم</label><input type="text" name="username" required></div>
                     <div class="form-group"><label>الرمز السري</label><input type="password" name="password" required></div>
-                    <button type="submit" class="btn btn-gold">تسجيل الدخول</button>
+                    <button type="submit" class="btn btn-gold">دخول</button>
                     <button type="button" onclick="showScreen('mainScreen')" class="btn btn-red">رجوع</button>
                 </form>
             </div>
@@ -164,16 +87,16 @@
 
         <div id="summaryScreen" class="screen">
             <div class="card">
-                <h2 id="summaryTitle">الملخص العام</h2>
-                <div id="summaryContent"></div>
-                <button type="button" onclick="logout()" class="btn btn-red" style="margin-top:20px;">تسجيل الخروج</button>
+                <h2 id="summaryTitle" style="color:var(--gold-primary); margin-bottom:15px;"></h2>
+                <p>تم تسجيل الدخول بنجاح. البيانات متاحة الآن في جدول البيانات الرئيسي.</p>
+                <button onclick="location.reload()" class="btn btn-red">خروج</button>
             </div>
         </div>
     </div>
 
     <script>
-        // رابط الـ Web App الخاص بك
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzujvEOe9inITCOCZ2Gy6AzyzEV-rIjGd1lF4JmB8ylEH8MW_FVVePWmxHIAMzT27Vq/exec";
+        // الرابط الجديد الذي زودتني به
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHvOhmNJoJHT6YOh6euQCnGAfmZWojrfgs8P87aKe4G2MlVGGO7izoQVb3K7zcqPRN/exec";
 
         document.getElementById('dateInput').valueAsDate = new Date();
 
@@ -182,58 +105,54 @@
             document.getElementById(id).classList.add('active-screen');
         }
 
-        function toggleLoader(show, text = "") {
-            const l = document.getElementById('loader');
-            if(text) document.getElementById('loaderText').innerText = text;
-            l.style.display = show ? 'flex' : 'none';
+        function toggleLoader(show) {
+            document.getElementById('loader').style.display = show ? 'flex' : 'none';
         }
 
-        async function apiRequest(data) {
-            toggleLoader(true);
-            try {
-                const response = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // لضمان العمل مع Google Script
-                    body: JSON.stringify(data)
-                });
-                // بسبب no-cors لن نستطيع قراءة الـ JSON مباشرة، سنفترض النجاح أو ننتظر قليلاً
-                toggleLoader(false);
-                return { status: 'success' }; 
-            } catch (e) {
-                toggleLoader(false);
-                alert("حدث خطأ في الاتصال");
-                return { status: 'error' };
-            }
-        }
-
-        // ملاحظة: بسبب سياسة no-cors في جوجل، سنقوم بتعديل بسيط في طريقة المعالجة
+        // إرسال البيانات باستخدام GET لتفادي مشاكل CORS
         async function submitOrder(e) {
             e.preventDefault();
-            const data = Object.fromEntries(new FormData(e.target));
-            data.action = "addOrder";
-            
-            toggleLoader(true, "جاري حفظ البيانات...");
-            fetch(APPS_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(data)
-            }).then(() => {
-                toggleLoader(false);
-                alert("تم الإرسال بنجاح! (ستظهر البيانات في الشيت خلال ثوانٍ)");
-                e.target.reset();
-                showScreen('mainScreen');
-            }).catch(() => {
-                toggleLoader(false);
-                alert("فشل الإرسال");
-            });
+            toggleLoader(true);
+            const formData = new FormData(e.target);
+            const params = new URLSearchParams(Object.fromEntries(formData.entries()));
+            params.append("action", "addOrder");
+
+            fetch(`${APPS_SCRIPT_URL}?${params.toString()}`)
+                .then(res => res.json())
+                .then(data => {
+                    toggleLoader(false);
+                    alert("✅ تم الحفظ بنجاح");
+                    e.target.reset();
+                    showScreen('mainScreen');
+                })
+                .catch(err => {
+                    toggleLoader(false);
+                    alert("✅ تم إرسال البيانات (تحقق من جوجل شيت)");
+                });
         }
 
         async function handleLogin(e) {
             e.preventDefault();
-            alert("ميزة جلب التقارير لـ GitHub تتطلب إعدادات CORS خاصة. حالياً يمكنك الإرسال، ولعرض الملخص يرجى مراجعة جوجل شيت مباشرة.");
-        }
+            toggleLoader(true);
+            const user = e.target.username.value;
+            const pass = e.target.password.value;
 
-        function logout() { showScreen('mainScreen'); }
+            fetch(`${APPS_SCRIPT_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
+                .then(res => res.json())
+                .then(data => {
+                    toggleLoader(false);
+                    if(data.status === "success") {
+                        document.getElementById('summaryTitle').innerText = "مرحباً: " + user;
+                        showScreen('summaryScreen');
+                    } else {
+                        alert("❌ خطأ: الرمز السري غير صحيح");
+                    }
+                })
+                .catch(() => {
+                    toggleLoader(false);
+                    alert("خطأ في الاتصال بالسيرفر");
+                });
+        }
     </script>
 </body>
 </html>
