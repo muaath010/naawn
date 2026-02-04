@@ -6,48 +6,62 @@
     <title>نظام نعاون الموحد</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #D4AF37; --dark-red: #4a0404; --bg: #120000; }
+        :root { --gold: #D4AF37; --red: #8a0909; --bg: #120000; }
         * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        body { background: radial-gradient(circle, var(--dark-red), var(--bg)); color: #fff; min-height: 100vh; margin: 0; padding: 20px; text-align: center; }
-        .card { background: rgba(0,0,0,0.8); border: 1px solid var(--gold); border-radius: 15px; padding: 25px; max-width: 450px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .logo { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 15px; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #555; background: #000; color: #fff; text-align: center; font-size: 1rem; }
+        body { background: radial-gradient(circle, #4a0404, var(--bg)); color: #fff; min-height: 100vh; margin: 0; padding: 15px; text-align: center; }
+        
+        .card { background: rgba(0,0,0,0.85); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; max-width: 600px; margin: 15px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .logo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; }
+        
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #444; background: #000; color: #fff; text-align: center; font-size: 1rem; }
         .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1.1rem; }
         .btn-gold { background: var(--gold); color: #000; }
-        .btn-gold:hover { background: #b8952e; }
         .btn-outline { background: transparent; color: #fff; border: 1px solid var(--gold); }
+        
         .screen { display: none; animation: fadeIn 0.4s ease; }
         .active { display: block; }
-        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
+        
+        /* ستايل الجدول والإحصائيات */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(212,175,55,0.1); padding: 10px; border-radius: 8px; border: 1px solid var(--gold); }
+        .stat-card span { display: block; font-size: 1.2rem; font-weight: bold; }
+
+        .table-container { width: 100%; max-height: 400px; overflow-y: auto; border: 1px solid var(--gold); border-radius: 10px; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { position: sticky; top: 0; background: var(--gold); color: #000; padding: 10px; }
+        td { padding: 10px; border: 1px solid rgba(212,175,55,0.2); }
+        tr:nth-child(even) { background: rgba(255,255,255,0.05); }
+
+        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div id="loader"><p style="color:var(--gold)">جاري المعالجة...</p></div>
+    <div id="loader"><p style="color:var(--gold)">جاري التحميل...</p></div>
 
     <img src="https://i.postimg.cc/htw4PMrc/nskht-mn-Beige-Orange-Simple-Illustration-Pickup-and-Delivery-Service-instagram-Post.jpg" class="logo">
-    <h2 style="color:var(--gold)">فريق نعاون</h2>
+    <h2 style="color:var(--gold); margin: 5px 0;">فريق نعاون</h2>
 
     <div id="mainScreen" class="screen active">
         <div class="card">
             <button onclick="showScreen('orderScreen')" class="btn btn-gold">➕ تسجيل طلب جديد</button>
-            <button onclick="showScreen('loginScreen')" class="btn btn-outline">🔒 دخول النظام</button>
+            <button onclick="showScreen('loginScreen')" class="btn btn-outline">🔒 دخول النظام (ملخص)</button>
         </div>
     </div>
 
     <div id="orderScreen" class="screen">
         <div class="card">
-            <h3>تسجيل طلبية جديدة</h3>
+            <h3>بيانات الطلبية</h3>
             <form id="orderForm">
                 <input type="text" name="restaurant" placeholder="اسم المطعم" required>
                 <input type="text" name="driver" placeholder="اسم المندوب" required>
                 <input type="text" name="card" placeholder="رقم البطاقة">
-                <input type="text" name="location" placeholder="مكان التوصيل" required>
+                <input type="text" name="location" placeholder="المكان" required>
                 <input type="date" name="date" id="dateField" required>
-                <input type="number" name="count" placeholder="عدد الطلبات" required>
-                <input type="text" name="amount" placeholder="المبلغ (مثال: 0.800)" required>
-                <textarea name="details" placeholder="تفاصيل إضافية"></textarea>
+                <input type="number" name="count" placeholder="العدد" required>
+                <input type="text" name="amount" placeholder="المبلغ (0.800)" required>
+                <textarea name="details" placeholder="ملاحظات"></textarea>
                 <button type="submit" class="btn btn-gold">تأكيد الإرسال</button>
                 <button type="button" onclick="showScreen('mainScreen')" class="btn btn-outline">رجوع</button>
             </form>
@@ -56,11 +70,11 @@
 
     <div id="loginScreen" class="screen">
         <div class="card">
-            <h3>بوابة المندوبين والمطاعم</h3>
+            <h3>تسجيل دخول المطاعم</h3>
             <form id="loginForm">
-                <input type="text" name="username" placeholder="اسم المستخدم" required>
+                <input type="text" name="username" placeholder="اسم المستخدم (المطعم)" required>
                 <input type="password" name="password" placeholder="الرمز السري" required>
-                <button type="submit" class="btn btn-gold">دخول</button>
+                <button type="submit" class="btn btn-gold">عرض الملخص</button>
                 <button type="button" onclick="showScreen('mainScreen')" class="btn btn-outline">رجوع</button>
             </form>
         </div>
@@ -69,13 +83,22 @@
     <div id="summaryScreen" class="screen">
         <div class="card">
             <h3 id="welcomeMsg" style="color:var(--gold)"></h3>
-            <p>تم تسجيل دخولك بنجاح إلى النظام.</p>
-            <button onclick="location.reload()" class="btn btn-outline">خروج</button>
+            
+            <div class="stats-grid">
+                <div class="stat-card">إجمالي الطلبات <span id="statOrders">0</span></div>
+                <div class="stat-card">إجمالي المبالغ <span id="statAmount">0.000</span></div>
+            </div>
+
+            <div class="table-container" id="tableContent">
+                </div>
+
+            <button onclick="location.reload()" class="btn btn-outline" style="margin-top:20px;">تسجيل الخروج</button>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_N70JbKzPfWtNHVVfxip9uYQTRF1DWxkpAHvb5nbh7uCosHA7bBV5RsY8FcjdjG-A/exec";
+        // ضع رابط السكربت الخاص بك هنا
+        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbz96bv2iypBJG0vw7SciUHm7ZTF2IN-Bja4Fl-FBlQy0cQ59pxho6Emj9hFmIRL3MKO/exec;
 
         document.getElementById('dateField').valueAsDate = new Date();
 
@@ -88,7 +111,7 @@
             document.getElementById('loader').style.display = show ? 'flex' : 'none';
         }
 
-        // إرسال الطلبات
+        // إرسال طلب جديد
         document.getElementById('orderForm').onsubmit = async (e) => {
             e.preventDefault();
             toggleLoader(true);
@@ -97,19 +120,18 @@
 
             fetch(`${SCRIPT_URL}?${params.toString()}`)
                 .then(r => r.json())
-                .then(res => {
+                .then(() => {
                     toggleLoader(false);
-                    alert("✅ تم إرسال الطلب بنجاح");
+                    alert("✅ تم الحفظ بنجاح");
                     e.target.reset();
                     showScreen('mainScreen');
                 }).catch(() => {
                     toggleLoader(false);
-                    alert("✅ تم تحديث البيانات في جوجل شيت");
-                    showScreen('mainScreen');
+                    alert("✅ تمت العملية (تحقق من الشيت)");
                 });
         };
 
-        // تسجيل الدخول
+        // تسجيل الدخول وجلب الجدول
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             toggleLoader(true);
@@ -122,13 +144,33 @@
                     toggleLoader(false);
                     if(data.status === "success") {
                         document.getElementById('welcomeMsg').innerText = "مرحباً: " + data.user;
+                        document.getElementById('statOrders').innerText = data.stats.totalOrders;
+                        document.getElementById('statAmount').innerText = data.stats.totalAmount + " ر.ع";
+                        
+                        // بناء الجدول
+                        let html = `<table><tr>
+                            ${data.role === 'admin' ? '<th>المطعم</th>' : ''}
+                            <th>التاريخ</th><th>المكان</th><th>العدد</th><th>المبلغ</th>
+                        </tr>`;
+                        
+                        data.data.forEach(row => {
+                            html += `<tr>
+                                ${data.role === 'admin' ? `<td>${row.restaurant}</td>` : ''}
+                                <td>${new Date(row.date).toLocaleDateString('en-GB')}</td>
+                                <td>${row.location}</td>
+                                <td>${row.count}</td>
+                                <td>${row.amount}</td>
+                            </tr>`;
+                        });
+                        html += '</table>';
+                        document.getElementById('tableContent').innerHTML = html;
                         showScreen('summaryScreen');
                     } else {
-                        alert("❌ الرمز السري غير صحيح!");
+                        alert("❌ الرمز السري غير صحيح");
                     }
                 }).catch(() => {
                     toggleLoader(false);
-                    alert("خطأ في الاتصال");
+                    alert("خطأ في الاتصال بالبيانات");
                 });
         };
     </script>
