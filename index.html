@@ -3,176 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام نعاون الموحد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>إدخال بيانات التوصيل - نعاون</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #D4AF37; --red: #8a0909; --bg: #120000; }
-        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        body { background: radial-gradient(circle, #4a0404, var(--bg)); color: #fff; min-height: 100vh; margin: 0; padding: 15px; text-align: center; }
-        
-        .card { background: rgba(0,0,0,0.85); border: 1px solid var(--gold); border-radius: 15px; padding: 20px; max-width: 600px; margin: 15px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .logo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; }
-        
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #444; background: #000; color: #fff; text-align: center; font-size: 1rem; }
-        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 1.1rem; }
-        .btn-gold { background: var(--gold); color: #000; }
-        .btn-outline { background: transparent; color: #fff; border: 1px solid var(--gold); }
-        
-        .screen { display: none; animation: fadeIn 0.4s ease; }
-        .active { display: block; }
-        
-        /* ستايل الجدول والإحصائيات */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: rgba(212,175,55,0.1); padding: 10px; border-radius: 8px; border: 1px solid var(--gold); }
-        .stat-card span { display: block; font-size: 1.2rem; font-weight: bold; }
+        :root {
+            --primary-red: #8B0000;
+            --gold: #D4AF37;
+            --light-gold: #F4E0A1;
+            --white: #ffffff;
+        }
 
-        .table-container { width: 100%; max-height: 400px; overflow-y: auto; border: 1px solid var(--gold); border-radius: 10px; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { position: sticky; top: 0; background: var(--gold); color: #000; padding: 10px; }
-        td { padding: 10px; border: 1px solid rgba(212,175,55,0.2); }
-        tr:nth-child(even) { background: rgba(255,255,255,0.05); }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #3d0000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
 
-        #loader { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .container {
+            background: var(--white);
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 3px solid var(--gold);
+            position: relative;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-red);
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-red);
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            background: #fdfdfd;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary-red), #5e0000);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+            background: linear-gradient(45deg, #a00000, var(--primary-red));
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+
+        /* تحسينات الموبايل */
+        @media (max-width: 480px) {
+            .container { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="loader"><p style="color:var(--gold)">جاري التحميل...</p></div>
-
-    <img src="https://i.postimg.cc/htw4PMrc/nskht-mn-Beige-Orange-Simple-Illustration-Pickup-and-Delivery-Service-instagram-Post.jpg" class="logo">
-    <h2 style="color:var(--gold); margin: 5px 0;">فريق نعاون</h2>
-
-    <div id="mainScreen" class="screen active">
-        <div class="card">
-            <button onclick="showScreen('orderScreen')" class="btn btn-gold">➕ تسجيل طلب جديد</button>
-            <button onclick="showScreen('loginScreen')" class="btn btn-outline">🔒 دخول النظام (ملخص)</button>
+<div class="container">
+    <h2>إدخال بيانات توصيل (نعاون)</h2>
+    
+    <form id="deliveryForm">
+        <div class="form-group">
+            <label>اسم المندوب:</label>
+            <input type="text" id="name" required placeholder="أدخل الاسم الثلاثي">
         </div>
-    </div>
 
-    <div id="orderScreen" class="screen">
-        <div class="card">
-            <h3>بيانات الطلبية</h3>
-            <form id="orderForm">
-                <input type="text" name="restaurant" placeholder="اسم المطعم" required>
-                <input type="text" name="driver" placeholder="اسم المندوب" required>
-                <input type="text" name="card" placeholder="رقم البطاقة">
-                <input type="text" name="location" placeholder="المكان" required>
-                <input type="date" name="date" id="dateField" required>
-                <input type="number" name="count" placeholder="العدد" required>
-                <input type="text" name="amount" placeholder="المبلغ (0.800)" required>
-                <textarea name="details" placeholder="ملاحظات"></textarea>
-                <button type="submit" class="btn btn-gold">تأكيد الإرسال</button>
-                <button type="button" onclick="showScreen('mainScreen')" class="btn btn-outline">رجوع</button>
-            </form>
+        <div class="form-group">
+            <label>عدد الطلبات:</label>
+            <input type="number" id="orderCount" required placeholder="0">
         </div>
-    </div>
 
-    <div id="loginScreen" class="screen">
-        <div class="card">
-            <h3>تسجيل دخول المطاعم</h3>
-            <form id="loginForm">
-                <input type="text" name="username" placeholder="اسم المستخدم (المطعم)" required>
-                <input type="password" name="password" placeholder="الرمز السري" required>
-                <button type="submit" class="btn btn-gold">عرض الملخص</button>
-                <button type="button" onclick="showScreen('mainScreen')" class="btn btn-outline">رجوع</button>
-            </form>
+        <div class="form-group">
+            <label>التاريخ:</label>
+            <input type="date" id="date" required>
         </div>
-    </div>
 
-    <div id="summaryScreen" class="screen">
-        <div class="card">
-            <h3 id="welcomeMsg" style="color:var(--gold)"></h3>
-            
-            <div class="stats-grid">
-                <div class="stat-card">إجمالي الطلبات <span id="statOrders">0</span></div>
-                <div class="stat-card">إجمالي المبالغ <span id="statAmount">0.000</span></div>
-            </div>
-
-            <div class="table-container" id="tableContent">
-                </div>
-
-            <button onclick="location.reload()" class="btn btn-outline" style="margin-top:20px;">تسجيل الخروج</button>
+        <div class="form-group">
+            <label>مبلغ التوصيل (كل مبلغ على سطر جديد):</label>
+            <textarea id="amounts" required placeholder="0.8&#10;0.9&#10;1"></textarea>
         </div>
-    </div>
 
-    <script>
-        // ضع رابط السكربت الخاص بك هنا
-        const SCRIPT_URL = https://script.google.com/macros/s/AKfycbz96bv2iypBJG0vw7SciUHm7ZTF2IN-Bja4Fl-FBlQy0cQ59pxho6Emj9hFmIRL3MKO/exec;
+        <div class="form-group">
+            <label>الاستقطاع (ر.ع.):</label>
+            <input type="number" step="0.001" id="deduction" value="0">
+        </div>
 
-        document.getElementById('dateField').valueAsDate = new Date();
+        <button type="submit" id="submitBtn">إرسال البيانات</button>
+        <div class="loading" id="loadingMsg">جاري الإرسال... انتظر قليلاً</div>
+    </form>
+</div>
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
+<script>
+    // ضع رابط Google Apps Script الخاص بك هنا
+    const SCRIPT_URL = https://script.google.com/macros/s/AKfycbxaoc6v8Mf0aYF0LrbDbJlmVJsQ0xpqDC6K1cozPmDYuJXEPEuMtfL4QfxR9t2CLUjM/exec;
 
-        function toggleLoader(show) {
-            document.getElementById('loader').style.display = show ? 'flex' : 'none';
-        }
+    document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        const loader = document.getElementById('loadingMsg');
+        
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+        loader.style.display = 'block';
 
-        // إرسال طلب جديد
-        document.getElementById('orderForm').onsubmit = async (e) => {
-            e.preventDefault();
-            toggleLoader(true);
-            const params = new URLSearchParams(new FormData(e.target));
-            params.append("action", "addOrder");
-
-            fetch(`${SCRIPT_URL}?${params.toString()}`)
-                .then(r => r.json())
-                .then(() => {
-                    toggleLoader(false);
-                    alert("✅ تم الحفظ بنجاح");
-                    e.target.reset();
-                    showScreen('mainScreen');
-                }).catch(() => {
-                    toggleLoader(false);
-                    alert("✅ تمت العملية (تحقق من الشيت)");
-                });
+        const formData = {
+            name: document.getElementById('name').value,
+            orderCount: document.getElementById('orderCount').value,
+            date: document.getElementById('date').value,
+            amounts: document.getElementById('amounts').value,
+            deduction: document.getElementById('deduction').value
         };
 
-        // تسجيل الدخول وجلب الجدول
-        document.getElementById('loginForm').onsubmit = async (e) => {
-            e.preventDefault();
-            toggleLoader(true);
-            const user = e.target.username.value;
-            const pass = e.target.password.value;
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // لتجنب مشاكل CORS مع Apps Script
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
+            alert('تم تسجيل البيانات بنجاح!');
+            document.getElementById('deliveryForm').reset();
+        })
+        .catch(error => {
+            alert('حدث خطأ في الإرسال، حاول مرة أخرى');
+            console.error('Error!', error.message);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            loader.style.display = 'none';
+        });
+    });
 
-            fetch(`${SCRIPT_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
-                .then(r => r.json())
-                .then(data => {
-                    toggleLoader(false);
-                    if(data.status === "success") {
-                        document.getElementById('welcomeMsg').innerText = "مرحباً: " + data.user;
-                        document.getElementById('statOrders').innerText = data.stats.totalOrders;
-                        document.getElementById('statAmount').innerText = data.stats.totalAmount + " ر.ع";
-                        
-                        // بناء الجدول
-                        let html = `<table><tr>
-                            ${data.role === 'admin' ? '<th>المطعم</th>' : ''}
-                            <th>التاريخ</th><th>المكان</th><th>العدد</th><th>المبلغ</th>
-                        </tr>`;
-                        
-                        data.data.forEach(row => {
-                            html += `<tr>
-                                ${data.role === 'admin' ? `<td>${row.restaurant}</td>` : ''}
-                                <td>${new Date(row.date).toLocaleDateString('en-GB')}</td>
-                                <td>${row.location}</td>
-                                <td>${row.count}</td>
-                                <td>${row.amount}</td>
-                            </tr>`;
-                        });
-                        html += '</table>';
-                        document.getElementById('tableContent').innerHTML = html;
-                        showScreen('summaryScreen');
-                    } else {
-                        alert("❌ الرمز السري غير صحيح");
-                    }
-                }).catch(() => {
-                    toggleLoader(false);
-                    alert("خطأ في الاتصال بالبيانات");
-                });
-        };
-    </script>
+    // تعيين تاريخ اليوم تلقائياً
+    document.getElementById('date').valueAsDate = new Date();
+</script>
+
 </body>
 </html>
